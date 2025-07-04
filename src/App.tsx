@@ -5,7 +5,7 @@ import Header from './components/Header';
 import LogEntryForm from './components/LogEntryForm';
 import LogHistory from './components/LogHistory';
 import AIAssistant from './components/AIAssistant';
-// import AdBanner from './components/AdBanner';
+import AdBanner from './components/AdBanner';
 import VisualSummary from './components/VisualSummary';
 import FilterControls from './components/FilterControls';
 
@@ -74,7 +74,7 @@ const App: React.FC = () => {
             To enable, get your ad slot ID from your AdSense account, replace the 'YYYYYYYYYY' placeholder,
             and uncomment the AdBanner import and this component.
         */}
-        {/* <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" /> */}
+         <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" /> 
         <AIAssistant logs={logs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
@@ -87,7 +87,7 @@ const App: React.FC = () => {
                 To enable, get your ad slot ID from your AdSense account, replace the 'ZZZZZZZZZZ' placeholder,
                 and uncomment the AdBanner import and this component.
             */}
-            {/* <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" /> */}
+             <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" /> 
         </div>
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
