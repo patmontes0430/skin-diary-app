@@ -60,7 +60,7 @@ const App: React.FC = () => {
             IMPORTANT: Google AdSense Banner
             Replace the adClient and adSlot with your own from your AdSense account.
         */}
-        <AdBanner adClient="ca-pub-XXXXXXXXXXXXXXXX" adSlot="YYYYYYYYYY" />
+        <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" />
         <AIAssistant logs={logs} />
         <LogHistory logs={logs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
         <div className="mt-8">
@@ -68,7 +68,7 @@ const App: React.FC = () => {
                 IMPORTANT: Google AdSense Banner
                 Replace the adClient and adSlot with your own from your AdSense account.
             */}
-            <AdBanner adClient="ca-pub-XXXXXXXXXXXXXXXX" adSlot="ZZZZZZZZZZ" />
+            <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" />
         </div>
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
