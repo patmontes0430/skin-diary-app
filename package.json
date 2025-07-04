@@ -6,7 +6,7 @@
     "build": "echo \"Build step not required. Static files are served directly.\""
   },
   "dependencies": {
-    "@google/genai": "^1.8.0"
+    "@google/genai": "^0.11.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
