@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { LogEntry } from '../types';
 
 interface LogItemProps {
