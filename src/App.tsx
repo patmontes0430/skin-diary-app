@@ -70,11 +70,9 @@ const App: React.FC = () => {
         <VisualSummary logs={logs} />
         {/* 
             IMPORTANT: Google AdSense Banner
-            This is currently disabled because it requires a valid 'adSlot' ID.
-            To enable, get your ad slot ID from your AdSense account, replace the 'YYYYYYYYYY' placeholder,
-            and uncomment the AdBanner import and this component.
+            Replace the 'YYYYYYYYYY' placeholder with your AdSense Ad Slot ID.
         */}
-         <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" /> 
+        <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />
         <AIAssistant logs={logs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
@@ -83,11 +81,9 @@ const App: React.FC = () => {
         <div className="mt-8">
              {/* 
                 IMPORTANT: Google AdSense Banner
-                This is currently disabled because it requires a valid 'adSlot' ID.
-                To enable, get your ad slot ID from your AdSense account, replace the 'ZZZZZZZZZZ' placeholder,
-                and uncomment the AdBanner import and this component.
+                Replace the 'ZZZZZZZZZZ' placeholder with your AdSense Ad Slot ID.
             */}
-             <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" /> 
+            <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
         </div>
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
