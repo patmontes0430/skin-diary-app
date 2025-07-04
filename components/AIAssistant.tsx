@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { LogEntry, InsightSections } from '../types';
 
 interface AIAssistantProps {
@@ -32,13 +32,13 @@ const drillDownQuestions = [
 ];
 
 const AIAssistant: React.FC<AIAssistantProps> = ({ logs }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [insights, setInsights] = useState<InsightSections | null>(null);
-  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [insights, setInsights] = React.useState<InsightSections | null>(null);
+  const [error, setError] = React.useState('');
 
-  const [drillDownAnalysis, setDrillDownAnalysis] = useState<{ question: string; answer: string } | null>(null);
-  const [isDrillingDown, setIsDrillingDown] = useState(false);
-  const [drillDownError, setDrillDownError] = useState('');
+  const [drillDownAnalysis, setDrillDownAnalysis] = React.useState<{ question: string; answer: string } | null>(null);
+  const [isDrillingDown, setIsDrillingDown] = React.useState(false);
+  const [drillDownError, setDrillDownError] = React.useState('');
 
 
   const handleGetInsights = async () => {
