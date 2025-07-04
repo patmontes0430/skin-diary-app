@@ -2,6 +2,9 @@
   "name": "skin-gut-diary",
   "version": "1.0.0",
   "description": "A daily diary to track food intake, water consumption, and skin reactions.",
+  "scripts": {
+    "build": "echo \"Build step not required. Static files are served directly.\""
+  },
   "dependencies": {
     "@google/genai": "^1.8.0"
   }
