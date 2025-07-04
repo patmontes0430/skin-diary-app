@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { LogEntry } from '../types';
 
 interface LogEntryFormProps {
@@ -25,18 +25,18 @@ const StarRating: React.FC<{ rating: number; setRating: (rating: number) => void
 };
 
 const LogEntryForm: React.FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, editingLog, onCancelEdit }) => {
-  const [date, setDate] = React.useState(new Date().toISOString().split('T')[0]);
-  const [food, setFood] = React.useState('');
-  const [supplements, setSupplements] = React.useState('');
-  const [intakeTime, setIntakeTime] = React.useState('');
-  const [water, setWater] = React.useState(8);
-  const [skinReaction, setSkinReaction] = React.useState('');
-  const [reactionTime, setReactionTime] = React.useState('');
-  const [skinRating, setSkinRating] = React.useState(3);
-  const [photo, setPhoto] = React.useState<string | undefined>(undefined);
-  const [showForm, setShowForm] = React.useState(false);
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [food, setFood] = useState('');
+  const [supplements, setSupplements] = useState('');
+  const [intakeTime, setIntakeTime] = useState('');
+  const [water, setWater] = useState(8);
+  const [skinReaction, setSkinReaction] = useState('');
+  const [reactionTime, setReactionTime] = useState('');
+  const [skinRating, setSkinRating] = useState(3);
+  const [photo, setPhoto] = useState<string | undefined>(undefined);
+  const [showForm, setShowForm] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editingLog) {
       setDate(editingLog.date);
       setFood(editingLog.food);

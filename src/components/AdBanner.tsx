@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 
 declare global {
   interface Window {
@@ -12,7 +12,7 @@ interface AdBannerProps {
 }
 
 const AdBanner: React.FC<AdBannerProps> = ({ adClient, adSlot }) => {
-    React.useEffect(() => {
+    useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (e) {

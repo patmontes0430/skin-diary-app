@@ -3,5 +3,6 @@
   "description": "A daily diary to track food intake, water consumption, and skin reactions. Use the AI assistant to find patterns and insights in your journey to better skin health.",
   "requestFramePermissions": [
     "camera"
-  ]
+  ],
+  "prompt": ""
 }

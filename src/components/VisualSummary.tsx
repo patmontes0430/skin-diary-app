@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { LogEntry } from '../types';
 
 interface VisualSummaryProps {
@@ -29,7 +29,7 @@ const VisualSummary: React.FC<VisualSummaryProps> = ({ logs }) => {
 
   const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x} ${p.y}`).join(' ');
 
-  const [tooltip, setTooltip] = React.useState<{ x: number; y: number; log: LogEntry } | null>(null);
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; log: LogEntry } | null>(null);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg my-8">

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { LogEntry } from './types';
 import useLocalStorage from './hooks/useLocalStorage';
 import Header from './components/Header';
@@ -11,8 +11,8 @@ import FilterControls from './components/FilterControls';
 
 const App: React.FC = () => {
   const [logs, setLogs] = useLocalStorage<LogEntry[]>('skin-diary-logs', []);
-  const [editingLog, setEditingLog] = React.useState<LogEntry | null>(null);
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [editingLog, setEditingLog] = useState<LogEntry | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const addLog = (newLog: Omit<LogEntry, 'id'>) => {
     const logWithId: LogEntry = {

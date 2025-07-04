@@ -1,5 +1,5 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
-import type { LogEntry, InsightSections } from '../../types';
+import type { LogEntry, InsightSections } from '../../src/types';
 
 // This is the main handler for the Netlify serverless function.
 // It's an async function that receives event data and must return a response object.
