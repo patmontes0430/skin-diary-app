@@ -5,12 +5,14 @@ import Header from './components/Header';
 import LogEntryForm from './components/LogEntryForm';
 import LogHistory from './components/LogHistory';
 import AIAssistant from './components/AIAssistant';
-import AdBanner from './components/AdBanner';
+// import AdBanner from './components/AdBanner';
 import VisualSummary from './components/VisualSummary';
+import FilterControls from './components/FilterControls';
 
 const App: React.FC = () => {
   const [logs, setLogs] = useLocalStorage<LogEntry[]>('skin-diary-logs', []);
   const [editingLog, setEditingLog] = useState<LogEntry | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const addLog = (newLog: Omit<LogEntry, 'id'>) => {
     const logWithId: LogEntry = {
@@ -44,6 +46,16 @@ const App: React.FC = () => {
       setEditingLog(null);
   }
 
+  const filteredLogs = logs.filter(log => {
+    if (!searchTerm) return true;
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return (
+        (log.food || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+        (log.supplements || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+        (log.skinReaction || '').toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  });
+
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
@@ -58,17 +70,24 @@ const App: React.FC = () => {
         <VisualSummary logs={logs} />
         {/* 
             IMPORTANT: Google AdSense Banner
-            Replace the adClient and adSlot with your own from your AdSense account.
+            This is currently disabled because it requires a valid 'adSlot' ID.
+            To enable, get your ad slot ID from your AdSense account, replace the 'YYYYYYYYYY' placeholder,
+            and uncomment the AdBanner import and this component.
         */}
-        <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" />
+        {/* <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" /> */}
         <AIAssistant logs={logs} />
-        <LogHistory logs={logs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
+        
+        {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
+
+        <LogHistory logs={filteredLogs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
         <div className="mt-8">
              {/* 
                 IMPORTANT: Google AdSense Banner
-                Replace the adClient and adSlot with your own from your AdSense account.
+                This is currently disabled because it requires a valid 'adSlot' ID.
+                To enable, get your ad slot ID from your AdSense account, replace the 'ZZZZZZZZZZ' placeholder,
+                and uncomment the AdBanner import and this component.
             */}
-            <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" />
+            {/* <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" /> */}
         </div>
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
