@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LogEntry } from './types';
 import useLocalStorage from './hooks/useLocalStorage';
 import Header from './components/Header';
@@ -8,6 +8,7 @@ import AIAssistant from './components/AIAssistant';
 import AdBanner from './components/AdBanner';
 import VisualSummary from './components/VisualSummary';
 import FilterControls from './components/FilterControls';
+import { consolidateLogsByDate } from './utils/logUtils';
 
 const App: React.FC = () => {
   const [logs, setLogs] = useLocalStorage<LogEntry[]>('skin-diary-logs', []);
@@ -46,6 +47,7 @@ const App: React.FC = () => {
       setEditingLog(null);
   }
 
+  // Raw logs filtered by search term for the main history view
   const filteredLogs = logs.filter(log => {
     if (!searchTerm) return true;
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -55,6 +57,9 @@ const App: React.FC = () => {
         (log.skinReaction || '').toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
+
+  // Consolidate logs by date for visualizations and AI analysis
+  const consolidatedLogs = useMemo(() => consolidateLogsByDate(logs), [logs]);
 
 
   return (
@@ -67,23 +72,18 @@ const App: React.FC = () => {
             editingLog={editingLog}
             onCancelEdit={handleCancelEdit}
         />
-        <VisualSummary logs={logs} />
-        {/* 
-            IMPORTANT: Google AdSense Banner
-            Replace the 'YYYYYYYYYY' placeholder with your AdSense Ad Slot ID.
-        */}
-        <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />
-        <AIAssistant logs={logs} />
+        {/* The VisualSummary now receives consolidated data */}
+        <VisualSummary logs={consolidatedLogs} />
+        <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" />
+        {/* The AIAssistant also receives consolidated data */}
+        <AIAssistant logs={consolidatedLogs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
 
+        {/* The LogHistory continues to show the individual, filtered logs */}
         <LogHistory logs={filteredLogs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
         <div className="mt-8">
-             {/* 
-                IMPORTANT: Google AdSense Banner
-                Replace the 'ZZZZZZZZZZ' placeholder with your AdSense Ad Slot ID.
-            */}
-            <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
+             <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" />
         </div>
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
