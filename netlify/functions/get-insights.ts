@@ -10,9 +10,9 @@ export const handler = async (event: { httpMethod: string; body: string | null }
   }
 
   // Securely access the API key from Netlify's environment variables.
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.API_KEY;
   if (!apiKey) {
-    console.error("GEMINI_API_KEY is not set in the Netlify environment.");
+    console.error("API_KEY is not set in the Netlify environment.");
     return { statusCode: 500, body: JSON.stringify({ error: "Server configuration error: API key is missing." }) };
   }
 
@@ -78,20 +78,19 @@ export const handler = async (event: { httpMethod: string; body: string | null }
   } 
   // --- Handle Initial Insights Generation ---
   else {
-    const systemInstruction = `You are a helpful wellness assistant analyzing a user's food and skin diary. Your goal is to find potential connections between their logged food, supplements, water intake, timing, and their skin's condition. You must provide clear, concise, and encouraging insights based ONLY on the data provided. Your response MUST be a valid JSON object following the defined schema. Each key should contain a brief analysis. For keys where there isn't enough data, return an empty string. IMPORTANT: DO NOT provide medical advice. Start your summary with encouragement. Frame your analysis as observations of potential patterns, not definitive causes. Base your analysis strictly on the log data.`;
+    const systemInstruction = `You are a helpful wellness assistant analyzing a user's food and skin diary. Your goal is to find potential connections between their logged food, supplements, water intake, timing, and their skin's condition. You must provide clear, concise, and encouraging insights based ONLY on the data provided. IMPORTANT: DO NOT provide medical advice. Start your summary with encouragement. Frame your analysis as observations of potential patterns, not definitive causes. Base your analysis strictly on the log data. For sections where there isn't enough data, return an empty string.`;
     const prompt = `Analyze these logs and provide insights.\nLogs:\n${JSON.stringify(logs, null, 2)}`;
     const insightsSchema = {
-      type: Type.OBJECT,
-      properties: {
-        foodCorrelations: { type: Type.STRING },
-        supplementCorrelations: { type: Type.STRING },
-        timingAnalysis: { type: Type.STRING },
-        waterAnalysis: { type: Type.STRING },
-        summary: { type: Type.STRING },
-      },
-      required: ["foodCorrelations", "supplementCorrelations", "timingAnalysis", "waterAnalysis", "summary"],
+        type: Type.OBJECT,
+        properties: {
+            foodCorrelations: { type: Type.STRING, description: "Analysis of food intake and skin reactions." },
+            supplementCorrelations: { type: Type.STRING, description: "Analysis of supplements/medicine and skin reactions." },
+            timingAnalysis: { type: Type.STRING, description: "Analysis of intake/reaction timing and skin reactions." },
+            waterAnalysis: { type: Type.STRING, description: "Analysis of water intake and skin condition." },
+            summary: { type: Type.STRING, description: "An overall summary and encouraging message." },
+        },
+        required: ["foodCorrelations", "supplementCorrelations", "timingAnalysis", "waterAnalysis", "summary"]
     };
-
 
     try {
         const response: GenerateContentResponse = await ai.models.generateContent({
@@ -105,21 +104,32 @@ export const handler = async (event: { httpMethod: string; body: string | null }
             }
         });
 
-        // The response is already a guaranteed JSON string based on the schema
-        const parsedData = JSON.parse(response.text) as InsightSections;
+        let jsonStr = response.text.trim();
+        const fenceRegex = /^```(\w*)?\s*\n?(.*?)\n?\s*```$/s;
+        const match = jsonStr.match(fenceRegex);
+        if (match && match[2]) {
+        jsonStr = match[2].trim();
+        }
+        
+        const parsedData = JSON.parse(jsonStr) as InsightSections;
+        if (!parsedData.foodCorrelations && !parsedData.summary) {
+            console.warn("AI response was missing required sections", parsedData);
+            // Attempt to recover or return a friendly error
+            parsedData.summary = parsedData.summary || "The AI returned a response, but it was not in the expected format. You could try again.";
+        }
         
         return {
-          statusCode: 200,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(parsedData),
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsedData),
         };
 
     } catch (error) {
         console.error("Error calling Gemini API for initial insights:", error);
         const message = error instanceof Error ? error.message : "An unknown error occurred during AI analysis.";
         return {
-          statusCode: 502,
-          body: JSON.stringify({ error: `Failed to get insights from the AI assistant. ${message}` }),
+        statusCode: 502,
+        body: JSON.stringify({ error: `Failed to get insights from the AI assistant. ${message}` }),
         };
     }
   }
