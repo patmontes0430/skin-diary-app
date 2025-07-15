@@ -8,6 +8,7 @@ import AIAssistant from './components/AIAssistant';
 import AdBanner from './components/AdBanner';
 import VisualSummary from './components/VisualSummary';
 import FilterControls from './components/FilterControls';
+import DailyTip from './components/DailyTip';
 
 const App: React.FC = () => {
   const [logs, setLogs] = useLocalStorage<LogEntry[]>('skin-diary-logs', []);
@@ -68,25 +69,25 @@ const App: React.FC = () => {
             onCancelEdit={handleCancelEdit}
         />
         <VisualSummary logs={logs} />
-        {/* 
-            IMPORTANT: Google AdSense Banner
-            Replace the 'YYYYYYYYYY' placeholder with your AdSense Ad Slot ID.
-        */}
-        {logs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" />}
+        
+        {/* Ad banner shown only when there is content to comply with AdSense policies. */}
+        {logs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />}
+        
         <AIAssistant logs={logs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
 
         <LogHistory logs={filteredLogs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
+        
         {logs.length > 0 && (
           <div className="mt-8">
-             {/* 
-                IMPORTANT: Google AdSense Banner
-                Replace the 'ZZZZZZZZZZ' placeholder with your AdSense Ad Slot ID.
-            */}
-            <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" />
+            {/* Ad banner shown only when there is content to comply with AdSense policies. */}
+            <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
           </div>
         )}
+
+        <DailyTip />
+
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
         <p>Disclaimer: This app is for tracking purposes only and is not a substitute for professional medical advice.</p>
