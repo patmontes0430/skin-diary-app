@@ -72,19 +72,21 @@ const App: React.FC = () => {
             IMPORTANT: Google AdSense Banner
             Replace the 'YYYYYYYYYY' placeholder with your AdSense Ad Slot ID.
         */}
-        <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />
+        {logs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" />}
         <AIAssistant logs={logs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
 
         <LogHistory logs={filteredLogs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
-        <div className="mt-8">
+        {logs.length > 0 && (
+          <div className="mt-8">
              {/* 
                 IMPORTANT: Google AdSense Banner
                 Replace the 'ZZZZZZZZZZ' placeholder with your AdSense Ad Slot ID.
             */}
-            <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
-        </div>
+            <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" />
+          </div>
+        )}
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
         <p>Disclaimer: This app is for tracking purposes only and is not a substitute for professional medical advice.</p>
