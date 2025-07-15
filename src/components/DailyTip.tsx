@@ -28,6 +28,7 @@ const DailyTip: React.FC = () => {
                 const data = await response.json();
 
                 if (!response.ok) {
+                    // Throw an error with the specific message from the server
                     throw new Error(data.error || 'Failed to fetch tip.');
                 }
 
@@ -39,7 +40,8 @@ const DailyTip: React.FC = () => {
 
             } catch (err: any) {
                 console.error("Failed to fetch daily tip:", err);
-                setError("Couldn't fetch a fresh tip right now. Please try again later.");
+                // Display the specific error from the server, or a fallback.
+                setError(err.message || "An unknown error occurred while fetching the tip.");
             } finally {
                 setIsLoading(false);
             }
@@ -58,7 +60,7 @@ const DailyTip: React.FC = () => {
             );
         }
         if (error) {
-            return <p className="text-center text-red-500 font-medium">{error}</p>;
+            return <p className="text-center text-red-500 font-medium bg-red-100 p-3 rounded-md">{error}</p>;
         }
         if (tip) {
             return <p className="text-center text-slate-700 italic">"{tip}"</p>;
@@ -72,7 +74,7 @@ const DailyTip: React.FC = () => {
                 <i className="fa-regular fa-lightbulb text-yellow-400 mr-3"></i>
                 Daily Skin Health Tip
             </h2>
-            <div className="h-12 flex items-center justify-center">
+            <div className="min-h-12 flex items-center justify-center">
                 <TipContent />
             </div>
         </div>
