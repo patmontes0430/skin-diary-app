@@ -72,7 +72,7 @@ const App: React.FC = () => {
             IMPORTANT: Google AdSense Banner
             Replace the 'YYYYYYYYYY' placeholder with your AdSense Ad Slot ID.
         */}
-        {logs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="YYYYYYYYYY" />}
+        {logs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />}
         <AIAssistant logs={logs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
@@ -84,7 +84,7 @@ const App: React.FC = () => {
                 IMPORTANT: Google AdSense Banner
                 Replace the 'ZZZZZZZZZZ' placeholder with your AdSense Ad Slot ID.
             */}
-            <AdBanner adClient="ca-pub-2580806029090774" adSlot="ZZZZZZZZZZ" />
+            <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
           </div>
         )}
       </main>
