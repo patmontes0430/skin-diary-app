@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getDailyTip } from '../services/geminiService';
 
 const DailyTip: React.FC = () => {
     const [tip, setTip] = useState<string | null>(null);
@@ -23,19 +24,13 @@ const DailyTip: React.FC = () => {
                     }
                 }
 
-                // If no valid cache, fetch from the serverless function
-                const response = await fetch('/.netlify/functions/get-daily-tip');
-                const data = await response.json();
+                // If no valid cache, fetch from the service
+                const newTip = await getDailyTip();
 
-                if (!response.ok) {
-                    // Throw an error with the specific message from the server
-                    throw new Error(data.error || 'Failed to fetch tip.');
-                }
-
-                if (data.tip) {
-                    setTip(data.tip);
+                if (newTip) {
+                    setTip(newTip);
                     // Cache the new tip with today's date
-                    localStorage.setItem('dailySkinTip', JSON.stringify({ tip: data.tip, date: today }));
+                    localStorage.setItem('dailySkinTip', JSON.stringify({ tip: newTip, date: today }));
                 }
 
             } catch (err: any) {
