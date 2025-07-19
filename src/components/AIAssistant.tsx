@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LogEntry, InsightSections } from '../types';
+import { getInsights, getDrillDownAnswer } from '../services/geminiService';
 
 interface AIAssistantProps {
   logs: LogEntry[];
@@ -48,20 +49,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ logs }) => {
     setDrillDownAnalysis(null);
     setDrillDownError('');
     try {
-      const response = await fetch('/.netlify/functions/get-insights', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ logs }),
-      });
-
-      const responseData = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(responseData.error || `Request failed with status ${response.status}`);
-      }
-      
+      const responseData = await getInsights(logs);
       setInsights(responseData);
     } catch (err: any) {
       setError(err.message || 'An unknown error occurred.');
@@ -75,16 +63,8 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ logs }) => {
     setDrillDownError('');
     setDrillDownAnalysis(null);
     try {
-      const response = await fetch('/.netlify/functions/get-insights', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ logs, question }),
-      });
-      const responseData = await response.json();
-      if (!response.ok) {
-        throw new Error(responseData.error || `Request failed with status ${response.status}`);
-      }
-      setDrillDownAnalysis({ question, answer: responseData.answer });
+      const answer = await getDrillDownAnswer(logs, question);
+      setDrillDownAnalysis({ question, answer });
     } catch (err: any) {
       setDrillDownError(err.message || 'An unknown error occurred.');
     } finally {
