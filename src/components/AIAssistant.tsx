@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 import { LogEntry, InsightSections } from '../types';
 import { getInsights, getDrillDownAnswer } from '../services/geminiService';
 
@@ -6,18 +6,16 @@ interface AIAssistantProps {
   logs: LogEntry[];
 }
 
-// Helper to render markdown-like strings to HTML
-const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
+const MarkdownRenderer: FC<{ content: string }> = ({ content }) => {
     const formattedContent = content
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/^- (.*$)/gim, '<li class="ml-4 list-disc">$1</li>') // Basic list support
+        .replace(/^- (.*$)/gim, '<li class="ml-4 list-disc">$1</li>')
         .replace(/\n/g, '<br />')
-        .replace(/<br \/><li/g, '<li'); // Fix for lists
-    return <div dangerouslySetInnerHTML={{ __html: formattedContent }} />;
+        .replace(/<br \/><li/g, '<li');
+    return <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formattedContent }} />;
 };
 
-// Metadata for styling insight cards
 const insightMetadata: Record<keyof InsightSections, { title: string; icon: string; color: string }> = {
   foodCorrelations: { title: "Food & Skin", icon: "fa-utensils", color: "text-orange-500" },
   supplementCorrelations: { title: "Supplements", icon: "fa-pills", color: "text-sky-500" },
@@ -32,15 +30,13 @@ const drillDownQuestions = [
     "Analyze my water intake. How does it correlate with my skin rating?",
 ];
 
-const AIAssistant: React.FC<AIAssistantProps> = ({ logs }) => {
+const AIAssistant: FC<AIAssistantProps> = ({ logs }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [insights, setInsights] = useState<InsightSections | null>(null);
   const [error, setError] = useState('');
-
   const [drillDownAnalysis, setDrillDownAnalysis] = useState<{ question: string; answer: string } | null>(null);
   const [isDrillingDown, setIsDrillingDown] = useState(false);
   const [drillDownError, setDrillDownError] = useState('');
-
 
   const handleGetInsights = async () => {
     setIsLoading(true);
@@ -152,7 +148,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ logs }) => {
                 {drillDownAnalysis && (
                      <div className="mt-4 p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
                         <p className="font-bold text-slate-700">{drillDownAnalysis.question}</p>
-                        <div className="mt-2 text-slate-600 text-sm prose prose-sm max-w-none">
+                        <div className="mt-2 text-slate-600 text-sm">
                             <MarkdownRenderer content={drillDownAnalysis.answer} />
                         </div>
                     </div>

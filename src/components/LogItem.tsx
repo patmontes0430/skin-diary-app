@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import { LogEntry } from '../types';
 
 interface LogItemProps {
@@ -7,7 +7,7 @@ interface LogItemProps {
   onEdit: (log: LogEntry) => void;
 }
 
-const StaticStarRating: React.FC<{ rating: number }> = ({ rating }) => {
+const StaticStarRating: FC<{ rating: number }> = ({ rating }) => {
   return (
     <div className="flex items-center space-x-1">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -23,7 +23,7 @@ const StaticStarRating: React.FC<{ rating: number }> = ({ rating }) => {
   );
 };
 
-const LogItem: React.FC<LogItemProps> = ({ log, onDelete, onEdit }) => {
+const LogItem: FC<LogItemProps> = ({ log, onDelete, onEdit }) => {
   const formattedDate = new Date(log.date).toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -49,10 +49,10 @@ const LogItem: React.FC<LogItemProps> = ({ log, onDelete, onEdit }) => {
             <StaticStarRating rating={log.skinRating} />
         </div>
         <div className="flex items-center space-x-4">
-             <button onClick={() => onEdit(log)} className="text-slate-400 hover:text-teal-500 transition-colors">
+             <button onClick={() => onEdit(log)} className="text-slate-400 hover:text-teal-500 transition-colors" aria-label="Edit log">
                 <i className="fas fa-pencil-alt"></i>
             </button>
-             <button onClick={() => onDelete(log.id)} className="text-slate-400 hover:text-red-500 transition-colors">
+             <button onClick={() => onDelete(log.id)} className="text-slate-400 hover:text-red-500 transition-colors" aria-label="Delete log">
                 <i className="fas fa-trash-alt"></i>
             </button>
         </div>

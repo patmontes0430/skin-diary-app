@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FC, ChangeEvent, FormEvent } from 'react';
 import { LogEntry } from '../types';
 
 interface LogEntryFormProps {
@@ -8,7 +8,7 @@ interface LogEntryFormProps {
   onCancelEdit: () => void;
 }
 
-const StarRating: React.FC<{ rating: number; setRating: (rating: number) => void }> = ({ rating, setRating }) => {
+const StarRating: FC<{ rating: number; setRating: (rating: number) => void }> = ({ rating, setRating }) => {
   return (
     <div className="flex space-x-1">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -18,13 +18,14 @@ const StarRating: React.FC<{ rating: number; setRating: (rating: number) => void
             star <= rating ? 'text-yellow-400' : 'text-gray-300'
           }`}
           onClick={() => setRating(star)}
+          aria-label={`${star} star`}
         />
       ))}
     </div>
   );
 };
 
-const LogEntryForm: React.FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, editingLog, onCancelEdit }) => {
+const LogEntryForm: FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, editingLog, onCancelEdit }) => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [food, setFood] = useState('');
   const [supplements, setSupplements] = useState('');
@@ -47,12 +48,12 @@ const LogEntryForm: React.FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, edit
       setReactionTime(editingLog.reactionTime || '');
       setSkinRating(editingLog.skinRating);
       setPhoto(editingLog.photo);
-      setShowForm(true); // Show the form when editing starts
+      setShowForm(true);
     }
   }, [editingLog]);
 
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -75,17 +76,15 @@ const LogEntryForm: React.FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, edit
     setShowForm(false);
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     
-    const isIntakeLogged = food.trim() !== '' || supplements.trim() !== '';
-
-    if (!isIntakeLogged) {
+    if (food.trim() === '' && supplements.trim() === '') {
       alert("Please log either the food/drink you had, or any supplements/medicine you took.");
       return;
     }
 
-    if (!skinReaction.trim()) {
+    if (skinReaction.trim() === '') {
       alert("Please describe how your skin is today.");
       return;
     }
@@ -100,7 +99,7 @@ const LogEntryForm: React.FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, edit
     }
 
     resetForm();
-    onCancelEdit(); // This will clear the editing state in App.tsx
+    onCancelEdit();
   };
   
   const handleCancel = () => {
@@ -150,16 +149,16 @@ const LogEntryForm: React.FC<LogEntryFormProps> = ({ onAddLog, onUpdateLog, edit
         </div>
 
         <div>
-            <label htmlFor="intakeTime" className="block text-sm font-medium text-slate-700 mb-1">Time of Intake (Food/Supplements) (optional)</label>
+            <label htmlFor="intakeTime" className="block text-sm font-medium text-slate-700 mb-1">Time of Intake (optional)</label>
             <input type="time" id="intakeTime" value={intakeTime} onChange={(e) => setIntakeTime(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"/>
         </div>
 
         <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">How much water? (in glasses)</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">How much water? (glasses)</label>
             <div className="flex items-center space-x-4">
-                <button type="button" onClick={() => setWater(w => Math.max(0, w-1))} className="bg-slate-200 h-8 w-8 rounded-full font-bold text-slate-600">-</button>
+                <button type="button" onClick={() => setWater(w => Math.max(0, w-1))} className="bg-slate-200 h-8 w-8 rounded-full font-bold text-slate-600" aria-label="Decrease water count">-</button>
                 <span className="font-semibold text-lg">{water}</span>
-                <button type="button" onClick={() => setWater(w => w+1)} className="bg-slate-200 h-8 w-8 rounded-full font-bold text-slate-600">+</button>
+                <button type="button" onClick={() => setWater(w => w+1)} className="bg-slate-200 h-8 w-8 rounded-full font-bold text-slate-600" aria-label="Increase water count">+</button>
             </div>
         </div>
 

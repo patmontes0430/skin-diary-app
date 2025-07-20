@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { getDailyTip } from '../services/geminiService';
 
-const DailyTip: React.FC = () => {
+const DailyTip: FC = () => {
     const [tip, setTip] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -11,7 +11,6 @@ const DailyTip: React.FC = () => {
             setIsLoading(true);
             setError(null);
             try {
-                // Check local storage first
                 const cachedTipData = localStorage.getItem('dailySkinTip');
                 const today = new Date().toISOString().split('T')[0];
 
@@ -24,18 +23,15 @@ const DailyTip: React.FC = () => {
                     }
                 }
 
-                // If no valid cache, fetch from the service
                 const newTip = await getDailyTip();
 
                 if (newTip) {
                     setTip(newTip);
-                    // Cache the new tip with today's date
                     localStorage.setItem('dailySkinTip', JSON.stringify({ tip: newTip, date: today }));
                 }
 
             } catch (err: any) {
                 console.error("Failed to fetch daily tip:", err);
-                // Display the specific error from the server, or a fallback.
                 setError(err.message || "An unknown error occurred while fetching the tip.");
             } finally {
                 setIsLoading(false);

@@ -1,6 +1,6 @@
-import React from 'react';
+import type { FC } from 'react';
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   return (
     <header className="bg-white shadow-md sticky top-0 z-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

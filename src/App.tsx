@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 import { LogEntry } from './types';
 import useLocalStorage from './hooks/useLocalStorage';
 import Header from './components/Header';
@@ -10,7 +10,7 @@ import VisualSummary from './components/VisualSummary';
 import FilterControls from './components/FilterControls';
 import DailyTip from './components/DailyTip';
 
-const App: React.FC = () => {
+const App: FC = () => {
   const [logs, setLogs] = useLocalStorage<LogEntry[]>('skin-diary-logs', []);
   const [editingLog, setEditingLog] = useState<LogEntry | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -62,6 +62,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-50 text-slate-800">
       <Header />
       <main className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <DailyTip />
         <LogEntryForm 
             onAddLog={addLog}
             onUpdateLog={updateLog}
@@ -85,9 +86,6 @@ const App: React.FC = () => {
             <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
           </div>
         )}
-
-        <DailyTip />
-
       </main>
       <footer className="text-center py-4 text-xs text-slate-400">
         <p>Disclaimer: This app is for tracking purposes only and is not a substitute for professional medical advice.</p>

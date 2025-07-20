@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import { LogEntry } from '../types';
 import LogItem from './LogItem';
 
@@ -8,7 +8,7 @@ interface LogHistoryProps {
   onEditLog: (log: LogEntry) => void;
 }
 
-const LogHistory: React.FC<LogHistoryProps> = ({ logs, onDeleteLog, onEditLog }) => {
+const LogHistory: FC<LogHistoryProps> = ({ logs, onDeleteLog, onEditLog }) => {
   if (logs.length === 0) {
     return (
       <div className="text-center py-12 px-4 bg-white rounded-lg shadow-md">

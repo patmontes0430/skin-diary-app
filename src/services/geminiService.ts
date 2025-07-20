@@ -1,16 +1,13 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { LogEntry, InsightSections } from '../types';
 
-// The instructions state: "The API key must be obtained exclusively from the environment variable process.env.API_KEY. Assume this variable is pre-configured, valid, and accessible in the execution context where the API client is initialized."
-// "Strict Prohibition: ... Do not define process.env or request that the user update the API_KEY in the code."
-// We assume Vite is configured to make `process.env.API_KEY` available. A client-side check is useful for developers but must not prompt the user.
 if (!process.env.API_KEY) {
-  // This will be visible in the developer console if the key is not set.
-  // It is a developer-facing error, not a user-facing one.
+  // This error is helpful for local development.
+  // In a production environment (like Netlify), the build will fail if the variable is missing, preventing deployment.
   console.error("Gemini API key is missing. Please set the API_KEY environment variable.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
 export const getInsights = async (logs: LogEntry[]): Promise<InsightSections> => {
@@ -46,7 +43,7 @@ export const getInsights = async (logs: LogEntry[]): Promise<InsightSections> =>
       
       const parsedData = JSON.parse(response.text) as InsightSections;
       if (!parsedData.foodCorrelations && !parsedData.summary) {
-          parsedData.summary = parsedData.summary || "The AI returned a response, but it was not in the expected format. You could try again.";
+          parsedData.summary = "The AI returned a response, but it was not in the expected format. You could try again.";
       }
       return parsedData;
   } catch (error) {

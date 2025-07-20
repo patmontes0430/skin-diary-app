@@ -1,11 +1,11 @@
-import React from 'react';
+import type { FC } from 'react';
 
 interface FilterControlsProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 }
 
-const FilterControls: React.FC<FilterControlsProps> = ({ searchTerm, setSearchTerm }) => {
+const FilterControls: FC<FilterControlsProps> = ({ searchTerm, setSearchTerm }) => {
   return (
     <div className="my-6">
       <div className="relative">
