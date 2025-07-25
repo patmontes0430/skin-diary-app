@@ -1,7 +1,9 @@
+# This specifies the build command and the directory with the final site files.
 [build]
   command = "npm run build"
-  publish = "build"
+  publish = "dist"
 
+# This rule ensures that your single-page application's routing works correctly.
 [[redirects]]
   from = "/*"
   to = "/index.html"
