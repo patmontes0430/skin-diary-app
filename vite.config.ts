@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Vite does not expose process.env to the client by default
-    // This makes the environment variables available to the client-side code
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
+    // Vite does not expose process.env to the client by default.
+    // This makes the environment variable set in Netlify available to the client-side code.
+    'process.env.API_KEY': JSON.stringify(process.env.GEMINI_API_KEY)
   }
 })
