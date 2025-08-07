@@ -103,6 +103,7 @@ export const getDailyTip = async (): Promise<string> => {
             contents: prompt,
             config: {
                 systemInstruction: systemInstruction,
+                temperature: 1,
             },
         });
 
