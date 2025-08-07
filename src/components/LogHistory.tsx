@@ -6,16 +6,26 @@ interface LogHistoryProps {
   logs: LogEntry[];
   onDeleteLog: (id: string) => void;
   onEditLog: (log: LogEntry) => void;
+  totalLogsCount: number;
 }
 
-const LogHistory: FC<LogHistoryProps> = ({ logs, onDeleteLog, onEditLog }) => {
+const LogHistory: FC<LogHistoryProps> = ({ logs, onDeleteLog, onEditLog, totalLogsCount }) => {
   if (logs.length === 0) {
+    if (totalLogsCount === 0) {
+      return (
+        <div className="text-center py-12 px-4 bg-white rounded-lg shadow-md">
+          <i className="fa-solid fa-book-open text-4xl text-slate-400 mb-4"></i>
+          <h3 className="text-xl font-semibold text-slate-700">No Logs Yet</h3>
+          <p className="text-slate-500 mt-2">Start by adding a new log to track your progress.</p>
+        </div>
+      );
+    }
     return (
-      <div className="text-center py-12 px-4 bg-white rounded-lg shadow-md">
-        <i className="fa-solid fa-book-open text-4xl text-slate-400 mb-4"></i>
-        <h3 className="text-xl font-semibold text-slate-700">No Logs Yet</h3>
-        <p className="text-slate-500 mt-2">Start by adding a new log to track your progress.</p>
-      </div>
+        <div className="text-center py-12 px-4 bg-white rounded-lg shadow-md">
+            <i className="fa-solid fa-magnifying-glass text-4xl text-slate-400 mb-4"></i>
+            <h3 className="text-xl font-semibold text-slate-700">No Matching Logs</h3>
+            <p className="text-slate-500 mt-2">Try a different search term.</p>
+        </div>
     );
   }
 
