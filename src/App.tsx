@@ -72,15 +72,15 @@ const App: FC = () => {
         <VisualSummary logs={logs} />
         
         {/* Ad banner shown only when there is content to comply with AdSense policies. */}
-        {logs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />}
+        {filteredLogs.length > 0 && <AdBanner adClient="ca-pub-2580806029090774" adSlot="7427443119" />}
         
         <AIAssistant logs={logs} />
         
         {logs.length > 0 && <FilterControls searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
 
-        <LogHistory logs={filteredLogs} onDeleteLog={deleteLog} onEditLog={handleEditLog}/>
+        <LogHistory logs={filteredLogs} onDeleteLog={deleteLog} onEditLog={handleEditLog} totalLogsCount={logs.length} />
         
-        {logs.length > 0 && (
+        {filteredLogs.length > 0 && (
           <div className="mt-8">
             {/* Ad banner shown only when there is content to comply with AdSense policies. */}
             <AdBanner adClient="ca-pub-2580806029090774" adSlot="3610135961" />
